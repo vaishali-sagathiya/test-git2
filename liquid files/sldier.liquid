@@ -1,0 +1,126 @@
+<section class="swiper-section">
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          <div class="img_wrap">
+            <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.image.alt }}">
+          </div>
+          <div class="text_content">
+            <h6>{{ block.settings.title }}</h6>
+            <p>{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+
+    <!-- Pagination Dots -->
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+<style>
+  .swiper-section {
+    width: 100%;
+    padding: 20px 0;
+  }
+  .swiper {
+    width: 90%;
+    overflow: hidden;
+  }
+  .swiper-slide {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s ease-in-out;
+    opacity: 0.6;
+    /* Dim non-active slides */
+    scale: 0.9;
+  }
+  .swiper-slide-active {
+    transform: scale(1);
+    /* Active slide is fully visible */
+    opacity: 1;
+    scale: 1;
+  }
+  .swiper-slide .img_wrap img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+  }
+  .swiper-pagination {
+    position: relative;
+    margin-top: 10px;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 1.2, /* Show next/prev slides slightly */
+      spaceBetween: 20,
+      loop: true,
+      centeredSlides: true, /* Center active slide */
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 1.3, /* Slightly more visible next/prev */
+        },
+        1024: {
+          slidesPerView: 1.5, /* Sneak peek effect */
+        }
+      }
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Swiper Slider",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Slide Image"
+          }, {
+            "type": "text",
+            "id": "title",
+            "label": "Slide Title"
+          }, {
+            "type": "textarea",
+            "id": "description",
+            "label": "Slide Description"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Swiper Slider",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}

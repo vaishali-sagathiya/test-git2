@@ -1,0 +1,16 @@
+<div>
+  {% assign vendor = product.vendor %}
+  {% assign handle = product.handle %}
+  {% assign counter = '' %}
+  {% for product in collections.all.products %}
+  {% if vendor == product.vendor and counter.size < 4 and handle != product.handle %}
+  {% capture temp %}{{ counter }}*{% endcapture %}
+  {% assign counter = temp %}
+  <div class="recommendations_img">
+    <a href="{{ product.url | within: collection }}" title="{{ product.title }}">
+      <img src="{{ product.images.first | product_img_url: 'small' }}" alt="{{ product.title }}" />
+    </a>
+  </div><!-- .recommendations_img -->
+  {% endif %}
+  {% endfor %}
+</div>

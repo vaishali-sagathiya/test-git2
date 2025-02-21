@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  
+    <style>
+        /* General link styling */
+        .animated-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-decoration: none;
+            color: black;
+            overflow: hidden;
+            background-color: transparent;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Background effect */
+        .animated-link::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: grey;
+            transition: width 0.4s ease-in-out;
+            z-index: -1;
+        }
+
+        /* Progress bar effect */
+        .animated-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: orange;
+            transition: width 0.4s ease-in-out;
+        }
+
+        /* Hover effects */
+        .animated-link:hover::before {
+            width: 100%;
+        }
+
+        .animated-link:hover::after {
+            width: 100%;
+        }
+
+        /* SVG icon */
+        .animated-link svg {
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Rotate SVG on hover */
+        .animated-link:hover svg {
+            transform: rotate(45deg);
+        }
+    </style>
+
+
+    <a href="#" class="animated-link">
+        Hover Me
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black">
+            <path d="M12 2L15 5H9L12 2ZM12 22L9 19H15L12 22ZM5 12L2 9V15L5 12ZM22 12L19 15V9L22 12ZM16.95 7.05L19.07 4.93L21.19 7.05L19.07 9.17L16.95 7.05ZM7.05 16.95L4.93 19.07L2.81 16.95L4.93 14.83L7.05 16.95ZM16.95 16.95L19.07 19.07L21.19 16.95L19.07 14.83L16.95 16.95ZM7.05 7.05L4.93 4.93L2.81 7.05L4.93 9.17L7.05 7.05Z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+</body>
+</html>

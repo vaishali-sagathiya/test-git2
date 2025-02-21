@@ -1,0 +1,336 @@
+{% assign column_blocks = section.blocks | where: "type", "column" %}
+{% assign row_blocks = section.blocks | where: "type", "row" %}
+{% assign actual_columns = column_blocks.size %}
+{% assign display_columns = section.settings.columns | at_most: actual_columns %}
+
+<div class="comparison-table-section" style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }};">
+  <div class="{{ section.settings.container_width }}">
+    <table class="comparison-table">
+      <tr>
+        <th></th>
+        {% for block in column_blocks limit: display_columns %}
+          <th class="comparison-table__header">
+            <div class="comparison-table__header-content">
+              {% if block.settings.header_image %}
+                <img 
+                  src="{{ block.settings.header_image | img_url: '240x' }}" 
+                  alt="{{ block.settings.title }}"
+                  class="comparison-table__header-image"
+                  loading="lazy"
+                  width="120"
+                >
+              {% elsif block.settings.header_icon != 'none' %}
+                {% case block.settings.header_icon %}
+                  {% when 'star' %}
+                    <svg class="icon comparison-table__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  {% when 'heart' %}
+                    <svg class="icon comparison-table__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  {% when 'check' %}
+                    <svg class="icon comparison-table__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                {% endcase %}
+              {% endif %}
+              
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" class="comparison-table__title">
+                  {{ block.settings.title }}
+                </a>
+              {% else %}
+                <span class="comparison-table__title">{{ block.settings.title }}</span>
+              {% endif %}
+              
+              {% if block.settings.subtitle != blank %}
+                <div class="comparison-table__subtitle">{{ block.settings.subtitle }}</div>
+              {% endif %}
+            </div>
+          </th>
+        {% endfor %}
+      </tr>
+      
+      {% for block in row_blocks %}
+        <tr class="comparison-table__row">
+          <td class="comparison-table__feature">{{ block.settings.feature }}</td>
+          {% for i in (1..display_columns) %}
+            {% capture col_key %}col{{ i }}_content{% endcapture %}
+            <td class="comparison-table__cell">
+              {{ block.settings[col_key] }}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>   
+    
+    <style>
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      min-width: 800px; /* Prevent table from squishing too small */
+    }
+    
+    .comparison-table__header {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      width: 200px; /* Fixed width instead of min-width */
+    }
+    
+    .comparison-table__header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .comparison-table__title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: inherit;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    
+    .comparison-table__subtitle {
+      font-size: 1rem;
+      color: #6c757d;
+      text-align: center;
+    }
+    
+    .comparison-table__icon {
+      margin-bottom: 1rem;
+    }
+    
+    .comparison-table__header-image {
+      width: 100%;
+      max-width: 120px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    
+    .comparison-table__row {
+      border: 1px solid #dee2e6;
+    }
+    
+    .comparison-table__feature {
+      padding: 1rem;
+      font-weight: 600;
+      background-color: #f8f9fa;
+      border-right: 1px solid #dee2e6;
+      width: 150px; /* Fixed width instead of min-width */
+    }
+    
+    .comparison-table__cell {
+      padding: 1rem;
+      text-align: center;
+      border-right: 1px solid #dee2e6;
+      width: 200px; /* Fixed width instead of min-width */
+    }
+    
+    .comparison-table__cell:last-child {
+      border-right: none;
+    }
+    
+    .comparison-table__cell p {
+      margin: 0;
+    }
+    
+    @media screen and (max-width: 767px) {
+      .comparison-table-section {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .comparison-table {
+        margin: 0;
+      }
+    }
+    
+    .icon {
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+    }
+    </style>
+    
+    {% schema %}
+        {
+          "name": "Comparison Table",
+          "tag": "section",
+          "class": "comparison-table-section",
+          "settings": [
+            {
+              "type": "range",
+              "id": "columns",
+              "min": 1,
+              "max": 4,
+              "step": 1,
+              "default": 3,
+              "label": "Number of Columns"
+            },
+            {
+              "type": "select",
+              "id": "container_width",
+              "label": "Container Width",
+              "options": [
+                {
+                  "value": "page-width",
+                  "label": "Standard"
+                },
+                {
+                  "value": "full-width",
+                  "label": "Full Width"
+                }
+              ],
+              "default": "page-width"
+            },
+            {
+              "type": "color",
+              "id": "background_color",
+              "label": "Background Color",
+              "default": "#ffffff"
+            },
+            {
+              "type": "color",
+              "id": "text_color",
+              "label": "Text Color",
+              "default": "#000000"
+            }
+          ],
+          "blocks": [
+            {
+              "type": "column",
+              "name": "Column",
+              "limit": 4,
+              "settings": [
+                {
+                  "type": "text",
+                  "id": "title",
+                  "label": "Title",
+                  "default": "Column Title"
+                },
+                {
+                  "type": "text",
+                  "id": "subtitle",
+                  "label": "Subtitle"
+                },
+                {
+                  "type": "url",
+                  "id": "link",
+                  "label": "Header Link"
+                },
+                {
+                  "type": "image_picker",
+                  "id": "header_image",
+                  "label": "Header Image"
+                },
+                {
+                  "type": "select",
+                  "id": "header_icon",
+                  "label": "Header Icon (displays if no image selected)",
+                  "options": [
+                    {
+                      "value": "none",
+                      "label": "None"
+                    },
+                    {
+                      "value": "star",
+                      "label": "Star"
+                    },
+                    {
+                      "value": "check",
+                      "label": "Checkmark"
+                    },
+                    {
+                      "value": "heart",
+                      "label": "Heart"
+                    }
+                  ],
+                  "default": "none"
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "name": "Comparison Row",
+              "settings": [
+                {
+                  "type": "text",
+                  "id": "feature",
+                  "label": "Feature Name",
+                  "default": "Feature"
+                },
+                {
+                  "type": "richtext",
+                  "id": "col1_content",
+                  "label": "Column 1 Content"
+                },
+                {
+                  "type": "richtext",
+                  "id": "col2_content",
+                  "label": "Column 2 Content"
+                },
+                {
+                  "type": "richtext",
+                  "id": "col3_content",
+                  "label": "Column 3 Content"
+                },
+                {
+                  "type": "richtext",
+                  "id": "col4_content",
+                  "label": "Column 4 Content"
+                }
+              ]
+            }
+          ],
+          "presets": [
+            {
+              "name": "Comparison Table",
+              "blocks": [
+                {
+                  "type": "column",
+                  "settings": {
+                    "title": "Basic Plan",
+                    "subtitle": "For starters",
+                    "header_icon": "star"
+                  }
+                },
+                {
+                  "type": "column",
+                  "settings": {
+                    "title": "Pro Plan",
+                    "subtitle": "Most popular",
+                    "header_icon": "heart"
+                  }
+                },
+                {
+                  "type": "column",
+                  "settings": {
+                    "title": "Enterprise",
+                    "subtitle": "For large teams",
+                    "header_icon": "check"
+                  }
+                },
+                {
+                  "type": "row",
+                  "settings": {
+                    "feature": "Feature 1",
+                    "col1_content": "<p>Basic feature</p>",
+                    "col2_content": "<p>Enhanced feature</p>",
+                    "col3_content": "<p>Premium feature</p>"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+        {% endschema %}
