@@ -18,6 +18,7 @@
     margin: 0 auto;
 }
 
+
 .collection .grid__item[class*="grid-class"] .card__inner .media img{
     max-width: 619px !important;
     min-height: 616px;
