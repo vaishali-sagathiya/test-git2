@@ -1,0 +1,108 @@
+<section class="block-full-width_slider">
+  <div class="content">
+    <div class="swiper full-width-slider">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide block-main-img-box">
+            <div class="img_wrap">
+              <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.title }}">
+            </div>
+            <div class="text_content">
+              <h6>{{ block.settings.title }}</h6>
+              <p>{{ block.settings.description }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Swiper Navigation Buttons -->
+      <div class="full-width-swiper-button-grp">
+        <div class="full-width-swiper-button-prev">
+          <svg
+            width="17"
+            height="28"
+            viewBox="0 0 17 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M15 2L3 14L15 26"
+              stroke="black"
+              stroke-width="3" />
+          </svg>
+        </div>
+        <div class="full-width-swiper-button-next">
+          <svg
+            width="17"
+            height="28"
+            viewBox="0 0 17 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M2 2L14 14L2 26"
+              stroke="black"
+              stroke-width="3" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block-full-width_slider">
+  <div class="content">
+    <div class="swiper main-slider">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide block-main-img-box">
+            <div class="img_wrap">
+              <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.title }}">
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+
+    <div class="swiper thumb-slider">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="text_content">
+            <h6>{{ block.settings.title }}</h6>
+            <p>{{ block.settings.description }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="full-width-swiper-button-grp">
+      <div class="full-width-swiper-button-prev">
+        <svg
+          width="17"
+          height="28"
+          viewBox="0 0 17 28"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M15 2L3 14L15 26"
+            stroke="black"
+            stroke-width="3" />
+        </svg>
+      </div>
+      <div class="full-width-swiper-button-next">
+        <svg
+          width="17"
+          height="28"
+          viewBox="0 0 17 28"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M2 2L14 14L2 26"
+            stroke="black"
+            stroke-width="3" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>

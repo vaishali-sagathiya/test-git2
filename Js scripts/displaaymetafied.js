@@ -72,38 +72,39 @@ function gridlayout() {
     
 }
 gridlayout()
+
 // console.log("Page loaded - Script is running");
 
-// const productGrid = document.querySelector(".product-grid");
-// const collectionContainer = document.querySelector("#ProductGridContainer");
+const productGrid = document.querySelector(".product-grid");
+const collectionContainer = document.querySelector("#ProductGridContainer");
 
-// // Function to check and update class
-// function updateProductGridClass() {
-// if (document.querySelector(".active-facets__button-inner")) {
-//   collectionContainer.classList.add("filtered"); // Add class when facet exists
-//   console.log("Facet applied - Added 'filtered' class to product-grid");
-// } else {
-//   collectionContainer.classList.remove("filtered"); // Remove class when facet is gone
-//   console.log("Facet removed - Removed 'filtered' class from product-grid");
-// }
-// }
+// Function to check and update class
+function updateProductGridClass() {
+if (document.querySelector(".active-facets__button-inner")) {
+  collectionContainer.classList.add("filtered"); // Add class when facet exists
+  console.log("Facet applied - Added 'filtered' class to product-grid");
+} else {
+  collectionContainer.classList.remove("filtered"); // Remove class when facet is gone
+  console.log("Facet removed - Removed 'filtered' class from product-grid");
+}
+}
 
-// // Initial check on page load
-// updateProductGridClass();
+// Initial check on page load
+updateProductGridClass();
 
-// // Observe DOM changes within .collection
-// const observer = new MutationObserver(() => {
-//     console.log("DOM change detected - Running updateProductGridClass()");
-//     updateProductGridClass();
-//     gridlayout();
-// });
+// Observe DOM changes within .collection
+const observer2 = new MutationObserver(() => {
+    console.log("DOM change detected - Running updateProductGridClass()");
+    updateProductGridClass();
+    gridlayout();
+});
 
-// if (collectionContainer) {
-//     observer.observe(collectionContainer, { childList: true, subtree: true });
-//     console.log("Observer initialized on .collection");
-//     } else {
-//     console.log("Error: .collection element not found!");
-// }
+if (collectionContainer) {
+    observer.observe(collectionContainer, { childList: true, subtree: true });
+    console.log("Observer initialized on .collection");
+    } else {
+    console.log("Error: .collection element not found!");
+}
 
 
 
@@ -125,3 +126,9 @@ if (targetNode) {
 
 
 
+var waitforelement = setInterval(function(){
+    if (document.querySelector(".product-grid-container")) {
+        console.log("content loaded~~~~~");
+        clearInterval(waitforelement);
+    }
+}, 100);
